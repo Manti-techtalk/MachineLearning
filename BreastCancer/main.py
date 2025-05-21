@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from joblib import load 
+from joblib import load
 import numpy as np
 
-
 app = FastAPI()
+
+model = load('cancer_model.joblib')
 
 class CancerData(BaseModel):
     mean_radius: float
@@ -27,13 +28,13 @@ class CancerData(BaseModel):
     concave_points_error: float
     symmetry_error: float
     fractal_dimension_error: float
-@app.post('/predict')
-def predict_cancer(data:CancerData):
-    data = np.array([[data.mean_radius, data.mean_texture, data.mean_perimeter, data.mean_area, data.mean_smoothness,
-                      data.mean_compactness, data.mean_concavity, data.mean_concave_points, data.mean_symmetry,
-                      data.mean_fractal_dimension, data.radius_error, data.texture_error, data.perimeter_error,
-                      data.area_error, data.smoothness_error, data.compactness_error, data.concavity_error,
-                      data.concave_points_error, data.symmetry_error, data.fractal_dimension_error]])
-    prediction = model.predict(data)
-    return {'prediction': int(prediction[0])}
 
+@app.post('/predict')
+def predict_cancer(data: CancerData):
+    input_data = np.array([[data.mean_radius, data.mean_texture, data.mean_perimeter, data.mean_area, data.mean_smoothness,
+                            data.mean_compactness, data.mean_concavity, data.mean_concave_points, data.mean_symmetry,
+                            data.mean_fractal_dimension, data.radius_error, data.texture_error, data.perimeter_error,
+                            data.area_error, data.smoothness_error, data.compactness_error, data.concavity_error,
+                            data.concave_points_error, data.symmetry_error, data.fractal_dimension_error]])
+    prediction = model.predict(input_data)
+    return {'prediction': int(prediction[0])}

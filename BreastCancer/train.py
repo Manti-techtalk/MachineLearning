@@ -15,4 +15,9 @@ x_training, x_testing, y_training,y_testing = train_test_split(x,y,test_size=0.2
 model = RandomForestClassifier()
 model.fit(x_training,y_training)
 
+#evaluate the model
+
+accuracy = model.score(x_testing,y_testing)
+print(f"Model accuracy: {accuracy}")
+
 dump(model,"cancer_model.joblib")

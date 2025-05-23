@@ -1,0 +1,6 @@
+scikit-learn for machine learning
+joblib to save/load models
+fastapi for backend
+uvicorn for running fastapi
+psycopg2-binary to connect to PosgreSQL 
+sqlAclchemy for ORM
